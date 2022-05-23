@@ -14,7 +14,7 @@ const initialState: OrderItemsState = {
 const handleSate = (state: OrderItemsState): OrderItemsState => {
   state.totalPrice = 0;
   state.listItem.forEach((item, index) => {
-    item._id = index + 1;
+    item.orderItemId = index + 1;
     state.totalPrice += item.product.price * item.quantity;
   });
   return state;
@@ -29,11 +29,11 @@ const orderItemsSlice = createSlice({
       state.totalPrice = 0;
       if (length === 0) {
         state.listItem.push(action.payload);
-        state.listItem[0]._id = 1;
+        state.listItem[0].orderItemId = 1;
         state.totalPrice = action.payload.product.price;
       } else {
         state.listItem.forEach((item, index) => {
-          if (item.product._id === action.payload.product._id) {
+          if (item.product.productId === action.payload.product.productId) {
             isDupplicateOrderItem = index + 1;
           }
         });
@@ -43,23 +43,23 @@ const orderItemsSlice = createSlice({
         }
 
         state.listItem.forEach((item, index) => {
-          if (item._id === isDupplicateOrderItem) {
+          if (item.orderItemId === isDupplicateOrderItem) {
             item.quantity += action.payload.quantity;
           }
           state.totalPrice += item.product.price * item.quantity;
-          item._id = index + 1;
+          item.orderItemId = index + 1;
         });
       }
     },
     deleteOrderItem(state, action: PayloadAction<OrderItem>) {
       state.listItem = state.listItem.filter(
-        (item) => item.product._id !== action.payload.product._id
+        (item) => item.product.productId !== action.payload.product.productId
       );
       state = handleSate(state);
     },
     minusQuantityOrderItem(state, action: PayloadAction<OrderItem>) {
       let index: number = -1;
-      if (action.payload._id) index = action.payload._id;
+      if (action.payload.orderItemId) index = action.payload.orderItemId;
 
       if (index !== -1) {
         state.listItem[index - 1].quantity -= 1;
@@ -69,8 +69,8 @@ const orderItemsSlice = createSlice({
     },
     plusQuantityOrderItem(state, action: PayloadAction<OrderItem>) {
       let index: number = -1;
-      if (action.payload._id) {
-        index = action.payload._id;
+      if (action.payload.orderItemId) {
+        index = action.payload.orderItemId;
         state.listItem[index - 1].quantity += 1;
       }
       state = handleSate(state);

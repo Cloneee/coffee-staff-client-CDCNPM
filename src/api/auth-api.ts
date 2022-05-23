@@ -8,7 +8,7 @@ const employeeAPi = {
     return axiosClient.get(url, { params });
   },
   login(data: LoginPayLoad): Promise<LoginResponseType> {
-    const url = '/employee/staff/login';
+    const url = '/employee/login';
     return axiosClient.post(url, data);
   },
   add(data: Employee): Promise<Employee> {

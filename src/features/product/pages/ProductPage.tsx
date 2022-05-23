@@ -88,11 +88,11 @@ export const ProductPage = () => {
   // -- Detail Product Modal
   const [isShowDetailModal, setisShowDetailModal] = useState(false);
   const handleShowDetailModal = async (product: Product) => {
-    console.log(product.category._id);
+    console.log(product.categoryId);
 
-    let productById = await productApi.getById(product._id);
-    await setselectedProduct(productById);
-    await setisShowDetailModal(true);
+    // let productById = await productApi.getById(product.productId);
+    // await setselectedProduct(productById);
+    // await setisShowDetailModal(true);
   };
   const handleCancelDetailModal = () => {
     setisShowDetailModal(false);
@@ -100,7 +100,7 @@ export const ProductPage = () => {
 
   const onFormSubmitDetailModal = async (product: any) => {
     try {
-      if (product._id) await productApi.update(product._id, product);
+      if (product.productId) await productApi.update(product.productId, product);
       Toast(
         'success',
         'Cập nhật sản phẩm thành công!',
@@ -139,7 +139,7 @@ export const ProductPage = () => {
       key: 'name',
       render: (text: string, obj: any) => (
         <div className="row">
-          <Image width={60} src={obj.images[0]} />
+          <Image width={60} src={obj.images} />
           <strong className="col-6"> {text} </strong>
         </div>
       ),
@@ -163,7 +163,7 @@ export const ProductPage = () => {
       filters: listCategoryFormatted,
       filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value: string, record: Product) => record?.category.name.includes(value),
+      onFilter: (value: string, record: Product) => record?.categoryId.includes(value),
     },
     {
       title: 'description',
@@ -270,7 +270,7 @@ export const ProductPage = () => {
             >
               <Select>
                 {listCategory.map((category, index) => {
-                  return <Select.Option value={category._id}>{category.name}</Select.Option>;
+                  return <Select.Option value={category.categoryId}>{category.name}</Select.Option>;
                 })}
               </Select>
             </Form.Item>
@@ -332,7 +332,7 @@ export const ProductPage = () => {
               <Form.Item label="Loại" name="category">
                 <Select>
                   {listCategory.map((category, index) => {
-                    return <Select.Option value={category._id}>{category.name}</Select.Option>;
+                    return <Select.Option value={category.categoryId}>{category.name}</Select.Option>;
                   })}
                 </Select>
               </Form.Item>

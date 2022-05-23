@@ -16,7 +16,7 @@ export const ProductTable = (props: Props) => {
   const listCategory: Category[] = useAppSelector((state) => state.category.list);
   const listCategoryFormatted: FilterFormat[] = [];
   listCategory.forEach((category, index) => {
-    let filerItem: FilterFormat = { text: category.name, value: category.name };
+    let filerItem: FilterFormat = { text: category.name, value: category.categoryId as string };
     listCategoryFormatted.push(filerItem);
   });
   useEffect(() => {
@@ -30,7 +30,7 @@ export const ProductTable = (props: Props) => {
       key: 'name',
       render: (text: string, obj: any) => (
         <div className="row">
-          <Image width={60} src={obj.images[0]} />
+          <Image width={60} src={obj.images} />
           <strong className="col-6"> {text} </strong>
         </div>
       ),
@@ -51,12 +51,12 @@ export const ProductTable = (props: Props) => {
     },
     {
       title: 'Loại',
-      dataIndex: ['category', 'name'],
-      key: 'category',
+      dataIndex: ['categoryId', 'name'],
+      key: 'categoryId',
       filters: listCategoryFormatted,
       filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value: string, record: Product) => record?.category.name.includes(value),
+      onFilter: (value: string, record: Product) => record.categoryId.includes(value),
     },
     // {
     //     title: 'description',
@@ -107,7 +107,7 @@ export const ProductTable = (props: Props) => {
         <Loading />
       ) : (
         <Table
-          rowKey="_id"
+          rowKey="productId"
           columns={columns}
           dataSource={listProduct}
           pagination={false}

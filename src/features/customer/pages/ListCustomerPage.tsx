@@ -32,7 +32,7 @@ export const ListCustomerPage = () => {
   // handle Delete customer
   const confirmDelete = async () =>{
     try {
-      if (selectedCustomer?._id) await CustomerAPi.remove(selectedCustomer._id);
+      if (selectedCustomer?.customerId) await CustomerAPi.remove(selectedCustomer.customerId);
       Toast(
         'success',
         'Xoá khách hàng thành công!',
@@ -73,7 +73,7 @@ export const ListCustomerPage = () => {
     setcurrentPage(1)
     setselectedCustomer(obj)
     let params: ListParams = {
-      id: obj?._id,
+      id: obj?.customerId,
       page: 1,
     };
     
@@ -124,9 +124,9 @@ export const ListCustomerPage = () => {
     setisShowDetailModal(false);
   };
 
-  const onFormSubmitDetailModal = async (customer: Product) => {
+  const onFormSubmitDetailModal = async (customer: Customer) => {
     try {
-      if (customer._id) await CustomerAPi.update(customer._id, customer);
+      if (customer.customerId) await CustomerAPi.update(customer.customerId, customer);
       Toast(
         'success',
         'Cập nhật khách hàng thành công!',
@@ -216,7 +216,7 @@ export const ListCustomerPage = () => {
     
     setcurrentPage(page)
     let params: ListParams = {
-      id: selectedCustomer?._id,
+      id: selectedCustomer?.customerId,
       page: page,
     };
     

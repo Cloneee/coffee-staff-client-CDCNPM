@@ -56,14 +56,14 @@ export const OrderTable = (props: Props) => {
       let listOrderItemsForAdd: OrderItemForAdd[] = [];
       listOrderItems.forEach((item, index) => {
         listOrderItemsForAdd.push({
-          product: item?.product?._id,
+          product: item?.product?.productId,
           quantity: item.quantity,
         });
       });
       console.log(listOrderItemsForAdd);
       let order: Order = {
         orderItems: listOrderItemsForAdd,
-        customer: selectedCustomer?._id,
+        customer: selectedCustomer?.customerId,
       };
       try {
         await orderAPi.add(order);
@@ -195,7 +195,7 @@ export const OrderTable = (props: Props) => {
       render: (obj: Customer) => {
         return (
           <div>
-            {selectedCustomer?._id === obj._id ? (
+            {selectedCustomer?.customerId === obj.customerId ? (
               <Tag color="#87d068">{'Đang chọn'.toUpperCase()}</Tag>
             ) : (
               <Button
@@ -269,7 +269,7 @@ export const OrderTable = (props: Props) => {
           )}
         </div>
         <div className="col-12 text-start" style={{ paddingTop: '15px', fontSize: '18px' }}>
-          {typeof selectedCustomer?._id !== 'undefined' ? (
+          {typeof selectedCustomer?.customerId !== 'undefined' ? (
             <div>
               <div>
                 Tên khách hàng: <strong>{selectedCustomer.name}</strong>
