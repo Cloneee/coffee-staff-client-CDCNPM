@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { Loading } from 'components/Common/Loading';
 import { Toast } from 'components/Common/Toast';
 import { orderItemsActions } from 'features/order/orderItemsSlice';
-import { Customer, Order, OrderItem, OrderItemForAdd } from 'models';
+import { Customer, IOrderRequest, Order, OrderItem, OrderItemForAdd, IOrderItems } from 'models';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -53,17 +53,19 @@ export const OrderTable = (props: Props) => {
       if (!selectedCustomer) {
         Toast('warning', 'Lưu ý!', 'Bạn vừa tạo hoá đơn với khách hàng vô danh!');
       }
-      let listOrderItemsForAdd: OrderItemForAdd[] = [];
+      let listOrderItemsForAdd: IOrderItems[] = [];
       listOrderItems.forEach((item, index) => {
         listOrderItemsForAdd.push({
-          product: item?.product?.productId,
-          quantity: item.quantity,
+          ProductId: item?.product?.productId as string,
+          Quantity: item.quantity,
         });
       });
       console.log(listOrderItemsForAdd);
-      let order: Order = {
-        orderItems: listOrderItemsForAdd,
-        customer: selectedCustomer?.customerId,
+      let order: IOrderRequest = {
+        OrderItems: listOrderItemsForAdd,
+        CustomerId: selectedCustomer?.customerId as string,
+        Address: selectedCustomer?.address as string,
+        TotalPrice: totalPrice,
       };
       try {
         await orderAPi.add(order);

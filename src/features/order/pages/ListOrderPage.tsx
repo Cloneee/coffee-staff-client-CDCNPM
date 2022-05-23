@@ -47,7 +47,6 @@ export const ListOrderPage = () => {
       render: (price: number) =>
         new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(price),
     },
-
     {
       title: 'Trạng thái',
       dataIndex: 'status',
